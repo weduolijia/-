@@ -1,4 +1,4 @@
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@104.207.148.215:2083?security=tls&sni=FA22baA3.fKGFW-8jN.PaGeS.dEv&alpn=http/1.1&fp=randomized&type=ws&path=/ilNSJE4rB1oEz7Nj?ed%3D2560&host=FA22bAA3.FKgfw-8JN.pAgES.Dev&encryption=none#US
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@47.76.49.246:2053?security=tls&sni=FA22baA3.fKGFW-8jN.PaGeS.dEv&alpn=http/1.1&fp=randomized&type=ws&path=/ilNSJE4rB1oEz7Nj?ed%3D2560&host=FA22bAA3.FKgfw-8JN.pAgES.Dev&encryption=none#HK
-vless://89b3cbba-e6ac-485a-9481-976a0415eab9@61.220.65.189:26832?security=tls&sni=FA22baA3.fKGFW-8jN.PaGeS.dEv&alpn=http/1.1&fp=randomized&type=ws&path=/ilNSJE4rB1oEz7Nj?ed%3D2560&host=FA22bAA3.FKgfw-8JN.pAgES.Dev&encryption=none#TW
+vless://89b3cbba-e6ac-485a-9481-976a0415eab9@35.229.161.32:443?security=tls&sni=FA22baA3.fKGFW-8jN.PaGeS.dEv&alpn=http/1.1&fp=randomized&type=ws&path=/ilNSJE4rB1oEz7Nj?ed%3D2560&host=FA22bAA3.FKgfw-8JN.pAgES.Dev&encryption=none#TW
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@1.236.13.140:10381?security=tls&sni=FA22baA3.fKGFW-8jN.PaGeS.dEv&alpn=http/1.1&fp=randomized&type=ws&path=/ilNSJE4rB1oEz7Nj?ed%3D2560&host=FA22bAA3.FKgfw-8JN.pAgES.Dev&encryption=none#JP
