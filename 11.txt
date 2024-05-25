@@ -1,4 +1,4 @@
-vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@112.29.215.172:26680?security=tls&sni=fkgfw-8jn.pages.dev&fp=randomized&type=ws&path=/?ed%3D2048&host=fkgfw-8jn.pages.dev&encryption=none#HK
-vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@58.242.130.180:42336?security=tls&sni=fkgfw-8jn.pages.dev&fp=randomized&type=ws&path=/?ed%3D2048&host=fkgfw-8jn.pages.dev&encryption=none#JP
-vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@58.242.130.180:41417?security=tls&sni=fkgfw-8jn.pages.dev&fp=randomized&type=ws&path=/?ed%3D2048&host=fkgfw-8jn.pages.dev&encryption=none#US
-vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@35.201.203.106:443?security=tls&sni=fkgfw-8jn.pages.dev&fp=randomized&type=ws&path=/?ed%3D2048&host=fkgfw-8jn.pages.dev&encryption=none#TW
+vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@154.17.231.91:443?security=tls&sni=spuerzz.cloudns.ch&fp=randomized&type=ws&path=/?ed%3D2048&host=spuerzz.cloudns.ch&encryption=none#US
+vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@8.210.156.6:443?security=tls&sni=spuerzz.cloudns.ch&fp=randomized&type=ws&path=/?ed%3D2048&host=spuerzz.cloudns.ch&encryption=none#HK
+vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@38.207.130.236:41306?security=tls&sni=spuerzz.cloudns.ch&fp=randomized&type=ws&path=/?ed%3D2048&host=spuerzz.cloudns.ch&encryption=none#JP
+vless://7b9e6865-f7fa-4b32-9466-f5ab3596e35e@35.201.203.106:443?security=tls&sni=spuerzz.cloudns.ch&fp=randomized&type=ws&path=/?ed%3D2048&host=spuerzz.cloudns.ch&encryption=none#TW
