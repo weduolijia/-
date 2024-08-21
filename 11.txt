@@ -124,7 +124,7 @@ proxy-providers:
     path: ./proxy_providers/provider_subscribe1.yaml
   2.provider:
     <<: *p
-    url: ""
+    url: "https://rgergergergerg6555.saojc.xyz/api/v1/client/subscribe?token=3cc41009baee68cf9a6126218ae85fd0"
     path: ./proxy_providers/provider_subscribe2.yaml
     #注意！如果您的订阅链接中带有“&”字符，请删掉.
     
