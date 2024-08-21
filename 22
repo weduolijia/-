@@ -1,0 +1,293 @@
+mode: rule
+mixed-port: 10801
+allow-lan: false
+log-level: info
+ipv6: true
+secret: ''
+external-controller: 127.0.0.1:9090
+find-process-mode: strict # 可选 进程模式 off/strict/always （关闭/自适应/强制开启）
+unified-delay: false
+tcp-concurrent: true
+keep-alive-interval: 30
+global-client-fingerprint: chrome
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+  
+geox-url:
+  geoip: "https://github.moeyy.xyz/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.moeyy.xyz/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
+geodata-mode: true
+geodata-loader: memconservative # 可选 standard/memconservative 标准加载器/低内存设备优化加载器
+geo-auto-update: true
+geo-update-interval: 24
+global-ua: clash.meta
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  strict-route: false
+  
+dns:
+  enable: true
+  prefer-h3: true 
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  enhanced-mode: fake-ip # DNS 处理模式 normal/fake-ip/redir-host 无特别需求/虚拟IP/真实IP
+  fake-ip-range: 198.18.0.1/15
+  fake-ip-filter:
+    - "*"
+    - "+.lan"
+    - "+.local"
+    - "geosite:cn,private"
+    - "rule-set:direct"
+  default-nameserver:
+    - 223.5.5.5
+    - 120.53.53.53
+  nameserver-policy:
+    "geosite:cn,private":
+      - "https://223.6.6.6/dns-query"
+      - "https://120.53.53.53/dns-query"
+    "rule-set:direct":
+      - "https://223.6.6.6/dns-query"
+      - "https://120.53.53.53/dns-query"
+  nameserver:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+  proxy-server-nameserver:
+    - https://223.6.6.6/dns-query
+    - https://120.53.53.53/dns-query
+hosts:
+  time.android.com: 203.107.6.88
+  time.facebook.com: 203.107.6.88
+  localhost: 127.0.0.1
+      
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    TLS:
+      ports:
+      - 443
+      - 8443
+    HTTP:
+      ports:
+      - 80
+      - 8080-8880
+      override-destination: true
+    QUIC:
+      ports:
+      - 443
+      - 8443
+  force-domain:
+    - "+.v2ex.com"
+    - "google.com"
+  skip-domain:
+    - "Mijia Cloud"
+    - "dlg.io.mi.com"
+    - "+.apple.com"  
+    
+        
+proxies:
+  - {name: "dns-out", type: dns, udp: true}
+        
+p: &p
+  {type: http, interval: 86400, health-check: {enable: true, url: https://www.gstatic.com/generate_204, interval: 600, timeout: 5000, lazy:true, expected-status: 204}}  
+u: &u
+  use:
+  # - 0.格式模板
+  - 1.provider
+  - 2.provider
+proxy-providers:
+#<<<<<<<<<<<<<<<<<
+  # 0.格式模板:
+  #   <<: *p  
+  #   url: "http://1.1.1.1" (订阅地址-本地文件可忽略)
+  #   path: ./proxy_providers/provider_subscribe3.yaml  (可灵活变更-不可冲突)
+  1.provider:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/provider_subscribe1.yaml
+  2.provider:
+    <<: *p
+    url: ""
+    path: ./proxy_providers/provider_subscribe2.yaml
+    #注意！如果您的订阅链接中带有“&”字符，请删掉.
+    
+#>>>>>>>>>>>>>>>>>
+##### 代理组
+proxy-groups:
+  - {name: 🌟 总模式, type: select, proxies: [🚀 节点选择,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🚀 节点选择, type: select, proxies: [🪐 自动切换,🌎 全球直连], <<: *u}
+  - {name: 🪐 自动切换, <<: *u, tolerance: 2, type: url-test, filter: "(?i)^(?!.*emby).*"}
+  - {name: ☀️ 手动切换1, type: select, proxies: [🚀 节点选择,🌎 全球直连], <<: *u}
+  - {name: 🌙 手动切换2, type: select, proxies: [🚀 节点选择,🌎 全球直连], <<: *u}
+  - {name: 🤖 AI, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 📲 Telegram, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🍦 YouTube, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🍿 Netflix, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🧋 Bilibili, type: select, proxies: [🌟 总模式,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾]}
+  - {name: 🍨 EMBY, type: select, proxies: [🌟 总模式,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇺🇳 其它地区], <<: *u, filter: "(?i)emby|plex|media"}
+  - {name: 📸 TikTok, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 📢 Google, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: Ⓜ️ Microsoft, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,mode: rule
+mixed-port: 10801
+allow-lan: false
+log-level: info
+ipv6: true
+secret: ''
+external-controller: 127.0.0.1:9090
+find-process-mode: strict # 可选 进程模式 off/strict/always （关闭/自适应/强制开启）
+unified-delay: false
+tcp-concurrent: true
+keep-alive-interval: 30
+global-client-fingerprint: chrome
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+  
+geox-url:
+  geoip: "https://github.moeyy.xyz/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.moeyy.xyz/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
+  asn: "https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
+geodata-mode: true
+geodata-loader: memconservative # 可选 standard/memconservative 标准加载器/低内存设备优化加载器
+geo-auto-update: true
+geo-update-interval: 24
+global-ua: clash.meta
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  strict-route: false
+  
+dns:
+  enable: true
+  prefer-h3: true 
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  listen: 0.0.0.0:1053
+  ipv6: true
+  enhanced-mode: fake-ip # DNS 处理模式 normal/fake-ip/redir-host 无特别需求/虚拟IP/真实IP
+  fake-ip-range: 198.18.0.1/15
+  fake-ip-filter:
+    - "*"
+    - "+.lan"
+    - "+.local"
+    - "geosite:cn,private"
+    - "rule-set:direct"
+  default-nameserver:
+    - 223.5.5.5
+    - 120.53.53.53
+  nameserver-policy:
+    "geosite:cn,private":
+      - "https://223.6.6.6/dns-query"
+      - "https://120.53.53.53/dns-query"
+    "rule-set:direct":
+      - "https://223.6.6.6/dns-query"
+      - "https://120.53.53.53/dns-query"
+  nameserver:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+  proxy-server-nameserver:
+    - https://223.6.6.6/dns-query
+    - https://120.53.53.53/dns-query
+hosts:
+  time.android.com: 203.107.6.88
+  time.facebook.com: 203.107.6.88
+  localhost: 127.0.0.1
+      
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    TLS:
+      ports:
+      - 443
+      - 8443
+    HTTP:
+      ports:
+      - 80
+      - 8080-8880
+      override-destination: true
+    QUIC:
+      ports:
+      - 443
+      - 8443
+  force-domain:
+    - "+.v2ex.com"
+    - "google.com"
+  skip-domain:
+    - "Mijia Cloud"
+    - "dlg.io.mi.com"
+    - "+.apple.com"  
+    
+        
+proxies:
+  - {name: "dns-out", type: dns, udp: true}
+        
+p: &p
+  {type: http, interval: 86400, health-check: {enable: true, url: https://www.gstatic.com/generate_204, interval: 600, timeout: 5000, lazy:true, expected-status: 204}}  
+u: &u
+  use:
+  # - 0.格式模板
+  - 1.provider
+  - 2.provider
+proxy-providers:
+#<<<<<<<<<<<<<<<<<
+  # 0.格式模板:
+  #   <<: *p  
+  #   url: "http://1.1.1.1" (订阅地址-本地文件可忽略)
+  #   path: ./proxy_providers/provider_subscribe3.yaml  (可灵活变更-不可冲突)
+  1.provider:
+    <<: *p
+    url: "https://7l7ju.no-mad-world.club/link/zagrzOSJf9KnLILQ?sub=2&extend=1"
+    path: ./proxy_providers/provider_subscribe1.yaml
+  2.provider:
+    <<: *p
+    url: "https://rgergergergerg6555.saojc.xyz/api/v1/client/subscribe?token=3cc41009baee68cf9a6126218ae85fd0"
+    path: ./proxy_providers/provider_subscribe2.yaml
+    #注意！如果您的订阅链接中带有“&”字符，请删掉.
+    
+#>>>>>>>>>>>>>>>>>
+##### 代理组
+proxy-groups:
+  - {name: 🌟 总模式, type: select, proxies: [🚀 节点选择,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🚀 节点选择, type: select, proxies: [🪐 自动切换,🌎 全球直连], <<: *u}
+  - {name: 🪐 自动切换, <<: *u, tolerance: 2, type: url-test, filter: "(?i)^(?!.*emby).*"}
+  - {name: ☀️ 手动切换1, type: select, proxies: [🚀 节点选择,🌎 全球直连], <<: *u}
+  - {name: 🌙 手动切换2, type: select, proxies: [🚀 节点选择,🌎 全球直连], <<: *u}
+  - {name: 🤖 AI, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 📲 Telegram, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🍦 YouTube, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🍿 Netflix, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🧋 Bilibili, type: select, proxies: [🌟 总模式,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾]}
+  - {name: 🍨 EMBY, type: select, proxies: [🌟 总模式,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇺🇳 其它地区], <<: *u, filter: "(?i)emby|plex|media"}
+  - {name: 📸 TikTok, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 📢 Google, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: Ⓜ️ Microsoft, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,
