@@ -120,7 +120,7 @@ proxy-providers:
   #   path: ./proxy_providers/provider_subscribe3.yaml  (可灵活变更-不可冲突)
   1.provider:
     <<: *p
-    url: "https://7l7ju.no-mad-world.club/link/zagrzOSJf9KnLILQ?clash=3&extend=1"
+    url: "https://7l7ju.no-mad-world.club/link/zagrzOSJf9KnLILQ?sub=2&extend=1"
     path: ./proxy_providers/provider_subscribe1.yaml
   2.provider:
     <<: *p
@@ -144,4 +144,159 @@ proxy-groups:
   - {name: 🍨 EMBY, type: select, proxies: [🌟 总模式,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇺🇳 其它地区], <<: *u, filter: "(?i)emby|plex|media"}
   - {name: 📸 TikTok, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
   - {name: 📢 Google, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
-  - {name: Ⓜ️ Microsoft, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]
+  - {name: Ⓜ️ Microsoft, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🍎 Apple, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🎮 Discord, type: select, proxies: [🌟 总模式,🪐 自动切换,☀️ 手动切换1,🌙 手动切换2,🌎 全球直连,🇭🇰 香港,🇨🇳 台湾,🇯🇵 日本,🇸🇬 新加坡,🇺🇸 美国,🇺🇳 其它地区]}
+  - {name: 🛑 隐私拦截, type: select, proxies: [REJECT,REJECT-DROP,PASS,🌟 总模式,🌎 全球直连]}
+  - {name: 🐋 漏网之鱼, type: select, proxies: [🌟 总模式,🌎 全球直连]}
+  - {name: 🌎 全球直连, type: select, proxies: [DIRECT]}
+  
+  # 分隔，下面是地区分组
+  - {name: 🇭🇰 香港, type: select, proxies: [香港延时选优组, 香港故障转移组]}
+  - {name: 🇨🇳 台湾, type: select, proxies: [台湾延时选优组, 台湾故障转移组]}
+  - {name: 🇯🇵 日本, type: select, proxies: [日本延时选优组, 日本故障转移组]}
+  - {name: 🇸🇬 新加坡, type: select, proxies: [新加坡延时选优组, 新加坡故障转移组]}
+  - {name: 🇺🇸 美国, type: select, proxies: [美国延时选优组, 美国故障转移组]}
+  - {name: 🇺🇳 其它地区, type: select, include-all-providers: true, filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates|emby)).*|.*(?:澳大利亚|australia)"}
+     
+  # 隐藏 延时选优组
+  - {name: 香港延时选优组, type: url-test, include-all-providers: true, interval: 600, tolerance: 5, lazy: true, hidden: true, filter: "(?i)(?=.*(?:港|hk|hongkong|hong\\s+kong))(?!.*(?:emby.*hk|hk.*emby))"}
+  - {name: 台湾延时选优组, type: url-test, include-all-providers: true, interval: 600, tolerance: 5, lazy: true, hidden: true, filter: "(?i)台|tw|taiwan"}
+  - {name: 日本延时选优组, type: url-test, include-all-providers: true, interval: 600, tolerance: 5, lazy: true, hidden: true, filter: "(?i)日|jp|japan"}
+  - {name: 新加坡延时选优组, type: url-test, include-all-providers: true, interval: 600, tolerance: 5, lazy: true, hidden: true, filter: "(?i)(新|sg|singapore)"}
+  - {name: 美国延时选优组, type: url-test, include-all-providers: true, interval: 600, tolerance: 5, lazy: true, hidden: true, filter: "(?i)(?=.*(?:美|\\bus\\b|united\\s*states))(?!.*(?:澳大利亚|australia))"}
+    
+  # 隐藏 故障转移组
+  - {name: 香港故障转移组, type: fallback, include-all-providers: true, interval: 600, tolerance: 5, timeout: 2000, lazy: true, hidden: true, filter: "(?i)(?=.*(?:港|hk|hongkong|hong\\s+kong))(?!.*(?:emby.*hk|hk.*emby))"}
+  - {name: 台湾故障转移组, type: fallback, include-all-providers: true, interval: 600, tolerance: 5, timeout: 2000, lazy: true, hidden: true, filter: "(?i)台|tw|taiwan"}
+  - {name: 日本故障转移组, type: fallback, include-all-providers: true, interval: 600, tolerance: 5, timeout: 2000, lazy: true, hidden: true, filter: "(?i)日|jp|japan"}
+  - {name: 新加坡故障转移组, type: fallback, include-all-providers: true, interval: 600, tolerance: 5, timeout: 2000, lazy: true, hidden: true, filter: "(?i)(新|sg|singapore)"}
+  - {name: 美国故障转移组, type: fallback, include-all-providers: true, interval: 600, tolerance: 5, timeout: 2000, lazy: true, hidden: true, filter: "(?i)(?=.*(?:美|\\bus\\b|united\\s*states))(?!.*(?:澳大利亚|australia))"}
+  
+rule-providers-anchor: 
+  rule_domain: &rule_domain {type: http, interval: 86400, behavior: domain}
+  rule_ipcidr: &rule_ipcidr {type: http, interval: 86400, behavior: ipcidr}
+  rule_classical: &rule_classical {type: http, interval: 86400, behavior: classical}
+     
+rule-providers:
+  Telegram:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Telegram.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Telegram.yaml"
+  Youtube:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Youtube.yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml"
+  Google:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Google.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Google.yaml"
+  Microsoft:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Microsoft.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Microsoft.yaml"
+  Apple:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Apple.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Apple.yaml"
+  Netflix:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Netflix.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Netflix.yaml"
+  Discord:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/Discord.yaml
+    url: "https://raw.githubusercontent.com/MoGuangYu/rules/main/Home/Discord.yaml"
+  BiliBili:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/BiliBili.yaml
+    url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml"
+  EMBY:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/EMBY.yaml
+    url: "https://raw.githubusercontent.com/aaouy123/copilot-/main/emby.yaml"
+  TikTok:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/TikTok.yaml
+    url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml"
+  AI:
+    <<: *rule_classical
+    format: yaml
+    path: ./rule/AI.yaml
+    url: "https://gitlab.com/lodepuly/vpn_tool/-/raw/master/Tool/Clash/Rule/AI.yaml"
+  reject_non_ip:
+    <<: *rule_classical
+    format: text
+    url: "https://ruleset.skk.moe/Clash/non_ip/reject.txt"
+    path: ./sukkaw_ruleset/reject_non_ip.txt
+  reject_domainset:
+    <<: *rule_domain
+    format: text
+    url: "https://ruleset.skk.moe/Clash/domainset/reject.txt"
+    path: ./sukkaw_ruleset/reject_domainset.txt
+  reject_ip:
+    <<: *rule_ipcidr
+    format: text
+    url: "https://ruleset.skk.moe/Clash/ip/reject.txt"
+    path: ./sukkaw_ruleset/reject_ip.txt 
+  Lan:
+    <<: *rule_classical
+    format: yaml
+    url: "https://mirror.ghproxy.com/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml"
+    path: ./rule/Lan.yaml
+  direct:
+    <<: *rule_domain
+    format: yaml
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt"
+    path: ./ruleset/direct.yaml
+  cncidr:
+    <<: *rule_ipcidr
+    format: yaml
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+  site_category-httpdns:
+    <<: *rule_domain
+    format: mrs
+    path: ./rule_providers/domain/category-httpdns
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-httpdns.mrs"
+              
+rules:
+  - AND,((PROCESS-NAME,mihomo),(NOT,((IN-TYPE,inner)))),REJECT
+  - AND,((PROCESS-NAME,clash),(NOT,((IN-TYPE,inner)))),REJECT
+  - DST-PORT,53,dns-out  
+  - OR,((RULE-SET,site_category-httpdns),(DOMAIN-KEYWORD,httpdns)),REJECT-DROP  
+  - OR,((GEOSITE,googlefcm),(DST-PORT,5228-5230)),🌎 全球直连  
+  - RULE-SET,reject_non_ip,REJECT
+  - RULE-SET,reject_domainset,REJECT
+  - RULE-SET,reject_ip,REJECT  
+  - RULE-SET,Telegram,📲 Telegram
+  - DOMAIN,api.iturrit.com,📲 Telegram
+  - RULE-SET,AI,🤖 AI
+  - RULE-SET,Youtube,🍦 YouTube
+  - RULE-SET,Netflix,🍿 Netflix
+  - RULE-SET,Discord,🎮 Discord
+  - RULE-SET,BiliBili,🧋 Bilibili
+  - RULE-SET,EMBY,🍨 EMBY
+  - RULE-SET,TikTok,📸 TikTok
+  - RULE-SET,Google,📢 Google
+  - RULE-SET,Apple,🍎 Apple
+  - RULE-SET,Microsoft,Ⓜ️ Microsoft
+  - GEOSITE,category-ads-all,🛑 隐私拦截  
+  - RULE-SET,Lan,🌎 全球直连
+  - OR,((GEOSITE,private),(GEOIP,private,no-resolve)),🌎 全球直连
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,cncidr,DIRECT
+  - GEOSITE,CN,DIRECT
+  - GEOSITE,geolocation-!cn,🐋 漏网之鱼
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,🐋 漏网之鱼
