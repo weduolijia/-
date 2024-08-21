@@ -120,11 +120,11 @@ proxy-providers:
   #   path: ./proxy_providers/provider_subscribe3.yaml  (可灵活变更-不可冲突)
   1.provider:
     <<: *p
-    url: "https://7l7ju.no-mad-world.club/link/zagrzOSJf9KnLILQ?sub=2&extend=1"
+    url: ""
     path: ./proxy_providers/provider_subscribe1.yaml
   2.provider:
     <<: *p
-    url: "https://rgergergergerg6555.saojc.xyz/api/v1/client/subscribe?token=3cc41009baee68cf9a6126218ae85fd0"
+    url: ""
     path: ./proxy_providers/provider_subscribe2.yaml
     #注意！如果您的订阅链接中带有“&”字符，请删掉.
     
